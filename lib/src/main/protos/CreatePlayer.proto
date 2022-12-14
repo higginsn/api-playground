@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package api.playground;
+
+option java_multiple_files = true;
+option java_package = "api.playground.protos";
+option java_outer_classname = "CreatePlayerProtos";
+
+message CreatePlayer {
+  optional string name = 1;
+}

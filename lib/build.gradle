@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'com.google.protobuf' version '0.9.1'
 }
 
 repositories {
@@ -29,6 +30,7 @@ dependencies {
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
     implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
     runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
+    implementation 'com.google.protobuf:protobuf-java:3.11.1'
 }
 
 tasks.named('test') {
@@ -47,4 +49,22 @@ task buildZip(type: Zip) {
 task runRequestCaller(type: JavaExec) {
     main = 'api.playground.RequestCaller'
     classpath = sourceSets.main.runtimeClasspath
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/protos'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+
+    generateProtoTasks {
+        ofSourceSet('main')
+    }
 }
