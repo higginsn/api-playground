@@ -1,0 +1,11 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 300
+      MemorySize: 128
+      Handler: api.playground.LambdaRequestHandler
+      CodeUri: /Users/nick/IdeaProjects/api-playground/api-playground/lib
+      Runtime: java11
+      Architectures:
+        - x86_64

@@ -25,9 +25,26 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:31.0.1-jre'
+
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
+    runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+task runRequestCaller(type: JavaExec) {
+    main = 'api.playground.RequestCaller'
+    classpath = sourceSets.main.runtimeClasspath
 }
